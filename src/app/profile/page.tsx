@@ -39,14 +39,29 @@ const ProfilePage = () => {
   // };
   const fetchProfile = async () => {
     try {
-      console.log("Fetching profile...");
-      const response = await api.get("/profile");
+      // Verifica se o cookie existe e extrai o token
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1]; // O operador ?. garante que não tentamos acessar split em 'undefined'
+
+      // Se o token não existir, redireciona o usuário para a página de login
+      if (!token) {
+        console.log(`error`);
+        console.error("Token is missing");
+        return router.push("/login");
+      }
+
+      // Faz a requisição usando o token
+      const response = await api.get("/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 200) {
-        console.log("Profile data:", response.data);
         setProfile(response.data.user);
       } else {
-        console.log("Response error:", response.status);
         router.push("/login");
       }
     } catch (error) {
