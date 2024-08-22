@@ -14,7 +14,7 @@
 //     { headers }
 //   );
 // }
-
+"use client";
 import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
