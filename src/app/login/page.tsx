@@ -184,9 +184,9 @@
 // export default LoginPage;
 "use client";
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import api from "../api/axios"; // Certifique-se de que o caminho para o axios está correto
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -197,20 +197,16 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post("/login", { email, password });
+      const response = await axios.post("/api/login", { email, password });
 
       if (response.status === 200) {
         const token = response.data.token;
-
-        // Armazene o token no localStorage
         localStorage.setItem("authToken", token);
-
         console.log("Login bem-sucedido, token armazenado:", token);
 
-        // Redirecionar para a página de perfil
         router.push("/profile");
       } else {
-        console.error("Falha no login:", response.status);
+        console.error("Login falhou:", response.data);
       }
     } catch (error) {
       console.error("Erro no login:", error);
