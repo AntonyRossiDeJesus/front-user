@@ -146,7 +146,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import LogoutButton from "../api/logout/route";
+import LogoutButton from "./LogoutButton";
 
 interface UserProfile {
   id: string;
