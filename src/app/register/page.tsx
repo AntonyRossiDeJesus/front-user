@@ -58,9 +58,9 @@
 //     </div>
 //   );
 // }
-
-import api from "axios";
-import { useRouter } from "next/router";
+"use client";
+import { useRouter } from "next/navigation";
+import api from "../api/axios";
 
 const RegisterPage = () => {
   const router = useRouter();
