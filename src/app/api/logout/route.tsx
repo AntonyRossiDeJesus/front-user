@@ -14,19 +14,52 @@
 //     { headers }
 //   );
 // }
-"use client";
+// "use client";
+// import { useRouter } from "next/navigation";
+
+// const LogoutButton = () => {
+//   const router = useRouter();
+
+//   const handleLogout = () => {
+//     // Remover o token do localStorage
+//     localStorage.removeItem("authToken");
+//     console.log("Logout efetuado, token removido");
+
+//     // Redirecionar para a página de login
+//     router.push("/login");
+//   };
+
+//   return <button onClick={handleLogout}>Logout</button>;
+// };
+
+// export default LogoutButton;
+
+// src/components/LogoutButton.tsx
+
+"use client"; // Certifique-se de que o código é executado no lado do cliente
+
 import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    // Remover o token do localStorage
-    localStorage.removeItem("authToken");
-    console.log("Logout efetuado, token removido");
+  const handleLogout = async () => {
+    try {
+      // Faça uma solicitação POST para o endpoint de logout
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include", // Inclua cookies para que o cookie seja removido
+      });
 
-    // Redirecionar para a página de login
-    router.push("/login");
+      // Remover o token do localStorage
+      localStorage.removeItem("authToken");
+      console.log("Logout efetuado, token removido");
+
+      // Redirecionar para a página de login
+      router.push("/login");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
   };
 
   return <button onClick={handleLogout}>Logout</button>;
